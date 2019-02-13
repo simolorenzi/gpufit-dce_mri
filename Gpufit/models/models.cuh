@@ -9,14 +9,18 @@
 #include "cauchy_2d_elliptic.cuh"
 #include "fletcher_powell_helix.cuh"
 #include "brown_dennis.cuh"
+#include "tofts_trans.cuh"
+#include "patlak_trans.cuh"
+#include "extofts_trans.cuh"
+#include "tissue_uptake_trans.cuh"
 
 __device__ void calculate_model(
     ModelID const model_id,
-    float const * parameters,
+    REAL const * parameters,
     int const n_fits,
     int const n_points,
-    float * value,
-    float * derivative,
+    REAL * value,
+    REAL * derivative,
     int const point_index,
     int const fit_index,
     int const chunk_index,
@@ -49,6 +53,18 @@ __device__ void calculate_model(
     case BROWN_DENNIS:
         calculate_brown_dennis(parameters, n_fits, n_points, value, derivative, point_index, fit_index, chunk_index, user_info, user_info_size);
         break;
+	case TOFTS_TRANS:
+        calculate_tofts_trans(parameters, n_fits, n_points, value, derivative, point_index, fit_index, chunk_index, user_info, user_info_size);
+        break;
+	case PATLAK_TRANS:
+        calculate_patlak_trans(parameters, n_fits, n_points, value, derivative, point_index, fit_index, chunk_index, user_info, user_info_size);
+        break;
+	case EXTOFTS_TRANS:
+        calculate_extofts_trans(parameters, n_fits, n_points, value, derivative, point_index, fit_index, chunk_index, user_info, user_info_size);
+        break;
+	case TISSUE_UPTAKE_TRANS:
+        calculate_tissue_uptake_trans(parameters, n_fits, n_points, value, derivative, point_index, fit_index, chunk_index, user_info, user_info_size);
+        break;
     default:
         break;
     }
@@ -66,6 +82,10 @@ void configure_model(ModelID const model_id, int & n_parameters, int & n_dimensi
     case LINEAR_1D:             n_parameters = 2; n_dimensions = 1; break;
     case FLETCHER_POWELL_HELIX:       n_parameters = 3; n_dimensions = 1; break;
     case BROWN_DENNIS:          n_parameters = 4; n_dimensions = 1; break;
+	case TOFTS_TRANS:           n_parameters = 2; n_dimensions = 1; break;
+	case PATLAK_TRANS:          n_parameters = 2; n_dimensions = 1; break;
+	case EXTOFTS_TRANS:         n_parameters = 3; n_dimensions = 1; break;
+	case TISSUE_UPTAKE_TRANS:   n_parameters = 3; n_dimensions = 1; break;
     default:                                                        break;
     }
 }
