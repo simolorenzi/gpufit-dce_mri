@@ -11,7 +11,11 @@ enum ModelID {
     CAUCHY_2D_ELLIPTIC = 4,
     LINEAR_1D = 5,
     FLETCHER_POWELL_HELIX = 6,
-    BROWN_DENNIS = 7
+    BROWN_DENNIS = 7,
+	TOFTS_TRANS = 8,
+	PATLAK_TRANS = 9,
+	EXTOFTS_TRANS = 10,
+	TISSUE_UPTAKE_TRANS = 11
 };
 
 // estimator ID
@@ -22,5 +26,7 @@ enum FitState { CONVERGED = 0, MAX_ITERATION = 1, SINGULAR_HESSIAN = 2, NEG_CURV
 
 // return state
 enum ReturnState { OK = 0, ERROR = -1 };
+
+enum DataLocation { HOST = 0, DEVICE = 1 };
 
 #endif
